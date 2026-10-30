@@ -1,9 +1,11 @@
-﻿using System;
+﻿using FileAnalyzer.Analysis;
+using FileAnalyzer.Exceptions;
+using FileAnalyzer.Models;
+using FileAnalyzer.Readers;
+using System;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using FileAnalyzer.Exceptions;
-using FileAnalyzer.Readers;
 
 namespace FileAnalyzer
 {
@@ -32,7 +34,15 @@ namespace FileAnalyzer
                 Console.WriteLine($"File: {filePath}");
                 Console.WriteLine($"Character count: {text.Length}");
                 Console.WriteLine(new string('-', 40));
-                Console.WriteLine(text);
+                var result = new AnalysisResult { FilePath = filePath };
+                new TextAnalyzer().Analyze(text, result);
+
+                Console.WriteLine($"Analyzed words: {result.TotalWordCount}");
+                Console.WriteLine($"Distinct words: {result.DistinctWordCount}");
+                foreach (var pair in result.WordFrequencies.Take(10))
+                {
+                    Console.WriteLine($"{pair.Key}: {pair.Value}");
+                }
             }
             catch (UnsupportedFileTypeException ex)
             {
