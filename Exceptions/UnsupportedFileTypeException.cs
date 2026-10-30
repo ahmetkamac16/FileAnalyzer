@@ -7,7 +7,7 @@ namespace FileAnalyzer.Exceptions
         public string Extension { get; }
 
         public UnsupportedFileTypeException(string extension)
-            : base($"'{extension}' extension are not supported.")
+            : base($"Files with the '{extension}' extension are not supported.")
         {
             Extension = extension;
         }
