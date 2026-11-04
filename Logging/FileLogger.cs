@@ -9,7 +9,7 @@ namespace FileAnalyzer.Logging
 
         public FileLogger()
         {
-            string logDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+            string logDirectory = ResolveLogDirectory();
             Directory.CreateDirectory(logDirectory);
 
             string fileName = $"log_{DateTime.Now.ToString("yyyy-MM-dd")}.txt";
@@ -24,6 +24,32 @@ namespace FileAnalyzer.Logging
         public void Error(string message, Exception exception)
         {
             Write("ERROR", $"{message} | {exception.GetType().Name}: {exception.Message}");
+        }
+
+        private static string ResolveLogDirectory()
+        {
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+            try
+            {
+                var directory = new DirectoryInfo(baseDirectory);
+
+                while (directory != null)
+                {
+                    if (directory.GetFiles("*.csproj").Length > 0)
+                    {
+                        return Path.Combine(directory.FullName, "Logs");
+                    }
+
+                    directory = directory.Parent;
+                }
+            }
+            catch
+            {
+                // If the folder tree cannot be searched, fall back to the executable's folder.
+            }
+
+            return Path.Combine(baseDirectory, "Logs");
         }
 
         private void Write(string level, string message)
