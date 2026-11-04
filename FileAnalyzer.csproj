@@ -91,7 +91,10 @@
     <Compile Include="Analysis\PunctuationAnalyzer.cs" />
     <Compile Include="Analysis\StopWords.cs" />
     <Compile Include="Analysis\TextAnalyzer.cs" />
+    <Compile Include="Exceptions\FileReadException.cs" />
     <Compile Include="Exceptions\UnsupportedFileTypeException.cs" />
+    <Compile Include="Logging\FileLogger.cs" />
+    <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Models\AnalysisResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,8 +110,6 @@
     <None Include="Logs\.gitkeep" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Logging\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
