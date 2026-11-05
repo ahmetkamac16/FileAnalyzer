@@ -54,6 +54,16 @@ The project is a single console application. Separate classes handle file readin
 
 To add support for a file format, implement `IFileReader` and register the new reader in `FileReaderFactory`. The file picker uses that same list to include the new extension in its filter.
 
+## Known Limitations
+
+- **Turkish casing for all words.** Words are lowercased with Turkish rules, so uppercase English words containing `I` are converted with a dotless `ı` (for example, `API` → `apı`).
+- **Hyphenated words are split.** `e-ticaret` is counted as two tokens: `e` and `ticaret`.
+- **Only apostrophe suffixes are removed.** `Ahmet'in` and `Ahmet'e` are both counted as `ahmet`, but suffixes written without an apostrophe are not stemmed (`kitap`, `kitabı`, and `kitaplar` are counted separately).
+- **Context-free stop words.** Words with several meanings, such as `ne`, `gerek`, and `ister`, are always excluded, even when they are not used as conjunctions.
+- **Text encoding.** `.txt` files are read as UTF-8. Files saved in a legacy encoding such as Windows-1254 may display incorrect Turkish characters.
+- **Scanned PDFs.** PDFs that contain only images have no text layer and produce an empty report.
+- **Word headers and footers.** Only the main body of `.docx` files is analyzed.
+
 ## Technologies
 
 | Technology | Usage |
